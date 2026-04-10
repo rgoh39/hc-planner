@@ -595,6 +595,7 @@ function renderCounter(sess,myCount,myRole,isSac,commPct,bufPct){
     if(tot===0){sb.className='sb wn';sb.textContent='Waiting for ushers… 等待招待员开始计数…';}
     else{sb.className='sb ok';sb.textContent='Prepare 祝圣 '+hosts+' hosts 圣体 in '+cib+' ciborium 圣体盒 — before Offertory ✝';}
   }
+}
 let pinBuf='';
 function dotRefresh(state){for(let i=0;i<6;i++){const d=$('d'+i);if(!d)continue;d.className='dot'+(i<pinBuf.length?' f':'')+(state==='e'?' e':'');}}
 
