@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2A1F0E">
+<title>HC Planner — Setup</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>/* ═══════════════════════════════════════════════════════════════════
+   HC Planner — app.css
+   Beige & Black · Fluid mobile-first layout
+   ═══════════════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --bg:    #F5F0E8;
+  --card:  #FBF7F0;
+  --row:   #EDE6D8;
+  --bord:  #C8B89A;
+  --hdr:   #2A1F0E;
+  --hdrtx: #F5F0E8;
+  --hdrs:  #C8B89A;
+  --tx:    #1A1008;
+  --sub:   #3D2E18;
+  --gold:  #7A5A0A;
+  --inp:   #FBF7F0;
+  --inpb:  #A89070;
+  --adj:   #EDE6D8;
+  --adjbr: #A89070;
+  --tap:   #2A1F0E;
+  --tapbr: #7A5A0A;
+  --gr:    #1A5A20; --grbg:#DFF0E0; --grbr:#6AAE78;
+  --wn:    #6A4A00; --wnbg:#FFF3D0; --wnbr:#C49A30;
+  --er:    #8A1010; --erbg:#FAE8E8; --erbr:#C87878;
+
+  /* Fluid type scale */
+  --fs-xs:  clamp(11px, 2.8vw, 13px);
+  --fs-sm:  clamp(12px, 3.2vw, 15px);
+  --fs-md:  clamp(13px, 3.6vw, 16px);
+  --fs-lg:  clamp(14px, 4.0vw, 18px);
+  --fs-h1:  clamp(15px, 4.2vw, 19px);
+  --fs-ch:  clamp(12px, 3.4vw, 14px);
+  --fs-num: clamp(64px, 20vw, 100px);
+  --fs-tap: clamp(34px, 11vw, 50px);
+  --fs-rv:  clamp(24px, 7.5vw, 36px);
+  --fs-bv:  clamp(16px, 5vw,   22px);
+
+  /* Fluid sizes */
+  --tap-sz: clamp(120px, 38vw, 160px);
+  --adj-sz: clamp(38px,  11vw,  50px);
+  --pa-sz:  clamp(30px,  8.5vw, 40px);
+  --sp:     clamp(6px,   2vw,   10px);
+}
+
+html, body {
+  height: 100%; width: 100%;
+  overflow-x: hidden;
+  background: var(--bg);
+  font-family: "Lato", sans-serif;
+  color: var(--tx);
+}
+
+/* ── Page wrapper ── */
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--bg);
+}
+
+/* ── Header ── */
+.hdr {
+  background: var(--hdr);
+  border-bottom: 3px solid var(--gold);
+  padding: clamp(10px,3vw,15px) clamp(14px,4vw,20px);
+  text-align: center;
+  position: relative;
+  flex-shrink: 0;
+}
+.hdr-cross {
+  position: absolute;
+  left: clamp(12px,3.5vw,18px);
+  top: 50%; transform: translateY(-50%);
+  font-size: clamp(16px,4.5vw,22px);
+  color: var(--hdrs); opacity: .8;
+  text-decoration: none;
+}
+.hdr-title {
+  font-family: "Cinzel", serif;
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  color: var(--hdrtx);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+.hdr-sub {
+  font-size: var(--fs-sm);
+  color: var(--hdrs);
+  margin-top: 2px;
+  letter-spacing: .5px;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--card);
+  border: 2px solid var(--bord);
+  border-radius: clamp(8px,2.5vw,14px);
+  margin: var(--sp) clamp(10px,3vw,16px) 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(42,31,14,.10);
+}
+.ch {
+  background: var(--row);
+  padding: clamp(7px,2.2vw,11px) clamp(10px,3vw,15px);
+  font-family: "Cinzel", serif;
+  font-size: var(--fs-ch);
+  font-weight: 700;
+  color: var(--tx);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--gold);
+}
+
+/* ── Config rows ── */
+.cr {
+  display: flex;
+  gap: clamp(5px,1.8vw,9px);
+  align-items: center;
+  padding: clamp(7px,2.2vw,11px) clamp(9px,2.8vw,13px);
+}
+.cr + .cr { border-top: 1px solid var(--bord); }
+.cl {
+  font-size: var(--fs-sm);
+  color: var(--tx);
+  letter-spacing: .3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: 700;
+}
+select, input[type=number], input[type=text] {
+  flex: 1;
+  background: var(--inp);
+  border: 2px solid var(--inpb);
+  border-radius: 8px;
+  color: var(--tx);
+  font-family: "Lato", sans-serif;
+  font-size: var(--fs-md);
+  padding: clamp(6px,2vw,9px) clamp(7px,2.2vw,11px);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  touch-action: manipulation;
+  font-weight: 700;
+}
+select option { background: var(--card); color: var(--tx); }
+input[type=number] { max-width: clamp(44px,13vw,56px); text-align: center; flex: none; }
+
+/* Stepper buttons */
+.pa {
+  width: var(--pa-sz); height: var(--pa-sz);
+  border-radius: 50%;
+  background: var(--adj); border: 2px solid var(--adjbr);
+  color: var(--tx);
+  font-size: clamp(16px,4.8vw,22px);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  outline: none; transition: background .11s; font-weight: 700;
+}
+.pa:active { background: var(--bord); }
+.pa:disabled { opacity: .28; cursor: default; }
+
+/* ── Login screen ── */
+.login-wrap {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  flex: 1;
+  padding: clamp(16px,5vw,32px) clamp(16px,5vw,28px);
+  gap: clamp(10px,3vw,16px);
+  overflow-y: auto;
+}
+.login-cross { font-size: clamp(36px,12vw,58px); }
+.login-title {
+  font-family: "Cinzel", serif;
+  font-size: clamp(18px,5.5vw,26px);
+  color: var(--tx); letter-spacing: 1.5px;
+  text-align: center; line-height: 1.45; font-weight: 700;
+}
+.login-sub { font-size: var(--fs-md); color: var(--sub); text-align: center; line-height: 1.6; }
+
+/* Tab row */
+.tab-row {
+  display: flex; width: 100%; max-width: min(340px,90vw);
+  border: 2px solid var(--bord); border-radius: 10px; overflow: hidden;
+}
+.tab-btn {
+  flex: 1; padding: clamp(10px,3vw,14px) 8px;
+  font-size: var(--fs-md); font-weight: 700;
+  font-family: "Lato", sans-serif; border: none; cursor: pointer;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  outline: none; transition: background .15s, color .15s;
+}
+.tab-btn.active  { background: var(--hdr); color: var(--hdrtx); }
+.tab-btn:not(.active) { background: var(--card); color: var(--sub); }
+
+/* Panels */
+.panel {
+  display: none; flex-direction: column;
+  align-items: center; gap: clamp(8px,2.5vw,14px);
+  width: 100%; max-width: min(340px,90vw);
+}
+.panel.on { display: flex; }
+
+/* Google button */
+.gbtn {
+  display: flex; align-items: center; gap: 10px;
+  background: #FFF; color: var(--tx);
+  border: 2px solid var(--bord); border-radius: 12px;
+  padding: clamp(12px,3.5vw,16px) clamp(18px,5vw,28px);
+  font-size: var(--fs-lg); font-weight: 700; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(42,31,14,.12);
+  font-family: "Lato", sans-serif;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  outline: none; transition: transform .1s;
+}
+.gbtn:active { transform: scale(.96); }
+.gbtn svg { width: clamp(18px,5vw,24px); height: clamp(18px,5vw,24px); flex-shrink: 0; }
+
+/* PIN pad */
+.pin-lbl { font-size: var(--fs-lg); color: var(--tx); font-weight: 700; text-align: center; }
+.pin-sub { font-size: var(--fs-sm); color: var(--sub); text-align: center; line-height: 1.5; }
+.dots { display: flex; gap: clamp(8px,2.5vw,14px); margin: 3px 0; }
+.dot {
+  width: clamp(12px,3.5vw,18px); height: clamp(12px,3.5vw,18px);
+  border-radius: 50%; border: 2px solid var(--inpb); background: transparent;
+  transition: background .12s, border-color .12s, transform .1s;
+}
+.dot.f { background: var(--tx); border-color: var(--tx); }
+.dot.e { background: var(--er); border-color: var(--er); transform: scale(1.15); }
+.pgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(5px,1.8vw,9px); width: 100%; }
+.pk {
+  height: clamp(48px,14vw,62px); width: 100%;
+  border-radius: clamp(8px,2.5vw,12px);
+  border: 2px solid var(--inpb); background: var(--card); color: var(--tx);
+  font-family: "Cinzel", serif; font-size: clamp(18px,5.5vw,24px); font-weight: 700;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  user-select: none; cursor: pointer; outline: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .1s, transform .09s;
+}
+.pk:active { background: var(--row); transform: scale(.92); }
+.pk.cl { color: var(--er); border-color: var(--erbr); }
+.pk.bk { color: var(--sub); }
+
+/* Error / note */
+.err-box {
+  display: none; padding: clamp(8px,2.5vw,12px) clamp(10px,3vw,16px);
+  border-radius: 10px; background: var(--erbg); border: 2px solid var(--erbr);
+  color: var(--er); font-size: var(--fs-md); text-align: center;
+  max-width: min(320px,88vw); line-height: 1.7; font-weight: 700;
+}
+.note { font-size: var(--fs-sm); color: var(--sub); text-align: center; line-height: 1.75; }
+.spin {
+  width: clamp(26px,7vw,36px); height: clamp(26px,7vw,36px);
+  border-radius: 50%; border: 3px solid var(--bord); border-top-color: var(--tx);
+  animation: spin .7s linear infinite; display: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── User bar ── */
+.ubar {
+  display: flex; align-items: center; gap: 8px;
+  padding: clamp(9px,2.8vw,13px) clamp(10px,3vw,16px);
+  font-size: var(--fs-md); color: var(--sub);
+  background: var(--row); border-bottom: 2px solid var(--bord);
+}
+.uavatar { width: clamp(24px,7vw,32px); height: clamp(24px,7vw,32px); border-radius: 50%; border: 2px solid var(--bord); flex-shrink: 0; }
+.uname { font-size: var(--fs-md); color: var(--tx); font-weight: 700; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── Buttons ── */
+.xbtn, .back-btn {
+  font-size: var(--fs-sm); color: var(--er); background: none;
+  border: 2px solid var(--erbr); border-radius: 6px;
+  padding: clamp(3px,1vw,5px) clamp(7px,2vw,11px);
+  cursor: pointer; font-family: "Lato", sans-serif; font-weight: 700;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  outline: none; white-space: nowrap; flex-shrink: 0;
+}
+.back-btn { color: var(--tx); border-color: var(--bord); background: var(--adj); }
+.xbtn:active, .back-btn:active { background: var(--row); }
+
+.btnrow { display: flex; gap: clamp(7px,2.2vw,12px); padding: clamp(7px,2.2vw,11px) clamp(10px,3vw,15px) 0; }
+.btn {
+  flex: 1; padding: clamp(11px,3.2vw,15px) 4px;
+  border-radius: 10px; border: 2px solid transparent; cursor: pointer;
+  font-family: "Lato", sans-serif; font-weight: 700; font-size: var(--fs-md);
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  outline: none; transition: opacity .14s, transform .09s;
+}
+.btn:active { transform: scale(.96); opacity: .84; }
+.btn-primary { background: var(--hdr); border-color: var(--gold); color: var(--hdrtx); }
+.btn-danger  { background: var(--erbg); border-color: var(--erbr); color: var(--er); }
+.btn-outline { background: var(--adj);  border-color: var(--bord); color: var(--tx); }
+
+/* ── OTP card ── */
+.otp-card {
+  background: var(--hdr); border-radius: clamp(8px,2.5vw,14px);
+  margin: var(--sp) clamp(10px,3vw,16px) 0;
+  padding: clamp(14px,4.5vw,22px); text-align: center;
+  box-shadow: 0 4px 16px rgba(42,31,14,.25);
+}
+.otp-label   { font-size: var(--fs-sm); color: var(--hdrs); font-weight: 700; letter-spacing: .8px; text-transform: uppercase; margin-bottom: 6px; }
+.otp-code    { font-family: "Cinzel", serif; font-size: clamp(32px,10vw,52px); font-weight: 700; color: var(--hdrtx); letter-spacing: 6px; margin-bottom: 4px; }
+.otp-expiry  { font-size: var(--fs-xs); color: var(--hdrs); margin-bottom: 10px; }
+.otp-link-box {
+  background: rgba(245,240,232,.12); border: 1px solid rgba(200,184,154,.4);
+  border-radius: 8px; padding: 10px 12px; margin: 6px 0 12px;
+  word-break: break-all; font-family: monospace;
+  font-size: clamp(10px,2.8vw,13px); color: var(--hdrtx);
+  text-align: left; line-height: 1.5;
+}
+.otp-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.otp-btn {
+  padding: clamp(7px,2.2vw,11px) clamp(12px,3.5vw,20px);
+  border-radius: 8px; border: 2px solid var(--hdrs);
+  background: transparent; color: var(--hdrtx);
+  font-size: var(--fs-sm); font-weight: 700; cursor: pointer;
+  font-family: "Lato", sans-serif; touch-action: manipulation; outline: none;
+}
+.otp-btn:active { background: rgba(245,240,232,.15); }
+.otp-btn.primary { background: var(--gold); color: var(--hdrtx); border-color: var(--gold); }
+
+/* ── Role grid ── */
+.rgrid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(7px,2.2vw,12px); padding: clamp(8px,2.5vw,13px); }
+.rbtn {
+  padding: clamp(12px,3.5vw,18px) 6px;
+  border-radius: clamp(8px,2.5vw,14px); border: 2px solid var(--bord);
+  background: var(--card); color: var(--tx);
+  font-family: "Cinzel", serif; font-size: var(--fs-md);
+  text-align: center; cursor: pointer; line-height: 1.55;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  outline: none; transition: all .14s; font-weight: 700;
+  box-shadow: 0 2px 6px rgba(42,31,14,.08);
+}
+.rbtn:active { background: var(--row); border-color: var(--tx); }
+.ri { font-size: clamp(24px,7.5vw,36px); display: block; margin-bottom: 4px; }
+
+/* ── Mass info bar ── */
+.mass-info-bar {
+  background: var(--row); border-bottom: 2px solid var(--bord);
+  padding: clamp(7px,2.2vw,11px) clamp(10px,3vw,15px);
+  font-size: var(--fs-sm); color: var(--tx); font-weight: 700; text-align: center;
+}
+
+/* ── Counter section ── */
+.csec { display: flex; flex-direction: column; align-items: center; padding: clamp(10px,3.5vw,18px) 14px clamp(8px,3vw,14px); gap: clamp(3px,1.2vw,6px); }
+.cnlbl { font-size: var(--fs-lg); color: var(--tx); letter-spacing: .8px; text-transform: uppercase; font-weight: 700; }
+.cnnum {
+  font-family: "Cinzel", serif; font-size: var(--fs-num);
+  font-weight: 700; color: var(--tx); line-height: 1;
+  user-select: none; -webkit-user-select: none;
+  transition: transform .08s, color .11s;
+}
+.cnnum.pulse { transform: scale(1.07); color: var(--gold); }
+
+/* TAP button */
+.tapbtn {
+  width: var(--tap-sz); height: var(--tap-sz); border-radius: 50%;
+  background: var(--tap); border: 4px solid var(--tapbr);
+  box-shadow: 0 4px 20px rgba(42,31,14,.25), 0 0 0 6px rgba(122,90,10,.15);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  cursor: pointer; margin: clamp(6px,2vw,12px) 0; position: relative; overflow: hidden;
+  touch-action: manipulation; user-select: none; -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent; outline: none; transition: transform .08s;
+}
+.tapbtn:active { transform: scale(.92); }
+.tapi { font-size: var(--fs-tap); line-height: 1; }
+.tapt { font-family: "Cinzel", serif; font-size: var(--fs-lg); color: var(--hdrtx); letter-spacing: 3px; font-weight: 700; }
+
+/* Adjust buttons */
+.adjrow { display: flex; gap: clamp(5px,1.8vw,9px); align-items: center; }
+.ab {
+  width: var(--adj-sz); height: var(--adj-sz); border-radius: 50%;
+  background: var(--adj); border: 2px solid var(--adjbr); color: var(--tx);
+  font-size: clamp(13px,4vw,18px);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-family: "Lato", sans-serif; font-weight: 700;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  outline: none; transition: background .11s;
+}
+.ab:active { background: var(--bord); }
+.al { font-size: var(--fs-sm); color: var(--sub); font-weight: 700; }
+
+/* Door breakdown */
+.brow { display: flex; justify-content: space-between; align-items: center; padding: clamp(8px,2.5vw,12px) clamp(10px,3vw,15px); border-bottom: 1px solid var(--bord); font-size: var(--fs-lg); }
+.brow:last-child { border-bottom: none; }
+.blb { color: var(--tx); font-weight: 700; }
+.bv  { color: var(--tx); font-family: "Cinzel", serif; font-weight: 700; font-size: var(--fs-bv); }
+.bv.me { color: var(--gold); }
+
+/* Summary grid */
+.rg { display: grid; grid-template-columns: 1fr 1fr; }
+.rc { padding: clamp(8px,2.5vw,13px) clamp(10px,3vw,15px); }
+.rc:nth-child(odd)  { border-right:  1px solid var(--bord); }
+.rc:nth-child(-n+2) { border-bottom: 1px solid var(--bord); }
+.rv { font-family: "Cinzel", serif; font-size: var(--fs-rv); font-weight: 700; line-height: 1; color: var(--tx); }
+.rl { font-size: var(--fs-xs); color: var(--sub); font-weight: 700; margin-top: 3px; }
+
+/* Status bar */
+.sb { margin: var(--sp) clamp(10px,3vw,16px) 0; padding: clamp(9px,2.8vw,13px) clamp(12px,3.5vw,18px); border-radius: 10px; font-size: var(--fs-md); text-align: center; line-height: 1.5; font-weight: 700; }
+.sb.ok { background: var(--grbg); border: 2px solid var(--grbr); color: var(--gr); }
+.sb.wn { background: var(--wnbg); border: 2px solid var(--wnbr); color: var(--wn); }
+.sb.er { background: var(--erbg); border: 2px solid var(--erbr); color: var(--er); }
+
+/* Sync row */
+.srow { display: flex; align-items: center; gap: 5px; padding: clamp(7px,2.2vw,11px) clamp(10px,3vw,15px) 0; font-size: var(--fs-sm); color: var(--sub); font-weight: 700; }
+.sd { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; transition: background .28s, box-shadow .28s; }
+.sd.ok  { background: var(--gr);    box-shadow: 0 0 5px var(--gr); }
+.sd.wn  { background: #C4860A;      box-shadow: 0 0 5px #C4860A; }
+.sd.er  { background: var(--er);    box-shadow: 0 0 5px var(--er); }
+.sr { color: var(--tx); cursor: pointer; font-size: clamp(17px,5vw,23px); touch-action: manipulation; margin: 0 3px; font-weight: 700; }
+.lout { margin-left: auto; font-size: var(--fs-sm); color: var(--er); background: none; border: 2px solid var(--erbr); border-radius: 6px; padding: clamp(3px,1vw,5px) clamp(7px,2vw,11px); cursor: pointer; font-family: "Lato", sans-serif; font-weight: 700; touch-action: manipulation; -webkit-tap-highlight-color: transparent; outline: none; }
+.lout:active { background: var(--erbg); }
+
+/* Footer note */
+.fn { font-size: var(--fs-xs); color: var(--sub); text-align: center; padding: clamp(7px,2.2vw,11px) clamp(10px,3vw,15px); line-height: 1.65; font-weight: 700; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: clamp(14px,4vw,24px); left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--hdr); border: 2px solid var(--gold); border-radius: 10px;
+  padding: clamp(9px,2.8vw,13px) clamp(16px,5vw,24px);
+  font-size: var(--fs-md); color: var(--hdrtx); font-weight: 700;
+  transition: transform .28s; z-index: 999;
+  max-width: 90vw; text-align: center; white-space: normal;
+  box-shadow: 0 4px 16px rgba(42,31,14,.25); pointer-events: none;
+}
+.toast.on { transform: translateX(-50%) translateY(0); }
+
+input[type=date],input[type=time]{flex:1;background:var(--inp);border:2px solid var(--inpb);border-radius:8px;color:var(--tx);font-family:"Lato",sans-serif;font-size:var(--fs-md);padding:clamp(6px,2vw,9px) clamp(7px,2.2vw,11px);outline:none;-webkit-appearance:none;appearance:none;touch-action:manipulation;font-weight:700;}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="hdr"><span class="hdr-cross">✝</span><div class="hdr-title">HC Planner 圣体预备</div><div class="hdr-sub">Mass Setup 弥撒设置</div></div>
+  <div class="ubar"><img class="uavatar" id="uavatar" src="" alt=""><span class="uname" id="uname"></span><button class="xbtn" id="signout-btn">Sign out 退出</button></div>
+  <div class="err-box" id="setup-err" style="margin:var(--sp) clamp(10px,3vw,16px) 0;"></div>
+  <div class="card" style="margin-top:var(--sp);">
+    <div class="ch">⚙ Mass Details 弥撒详情</div>
+    <div class="cr"><span class="cl">Date 日期</span><input type="date" id="setup-date"></div>
+    <div class="cr"><span class="cl">Day 星期</span><span id="setup-dayname" style="flex:1;font-size:var(--fs-md);font-weight:700;color:var(--tx);padding:clamp(6px,2vw,9px) 0;">—</span></div>
+    <div class="cr"><span class="cl">Time 时间</span><input type="time" id="setup-time" value="10:15"></div>
+    <div class="cr" style="border-top:1px solid var(--bord);">
+      <span class="cl">Closes 关闭</span>
+      <span id="setup-closes" style="flex:1;font-size:var(--fs-md);font-weight:700;color:var(--wn);padding:clamp(6px,2vw,9px) 0;">—</span>
+      <span style="font-size:var(--fs-xs);color:var(--sub);font-weight:700;">1 hr after Mass</span>
+    </div>
+    <div class="cr"><span class="cl" style="min-width:70px;">Comm% 领圣体率</span><button class="pa" id="cdn">−</button><span id="dcomm" style="font-family:Cinzel,serif;font-size:clamp(17px,5.2vw,23px);font-weight:700;color:var(--tx);min-width:44px;text-align:center;">72%</span><button class="pa" id="cup">+</button><span id="chint" style="font-size:var(--fs-sm);color:var(--sub);flex:1;font-weight:700;">Ordinary Time 常年期</span></div>
+    <div class="cr"><span class="cl" style="min-width:70px;">Buffer 余量%</span><button class="pa" id="bdn">−</button><span id="dbuf" style="font-family:Cinzel,serif;font-size:clamp(17px,5.2vw,23px);font-weight:700;color:var(--tx);min-width:44px;text-align:center;">12%</span><button class="pa" id="bup">+</button><span style="font-size:var(--fs-sm);color:var(--sub);flex:1;font-weight:700;">Safety margin 安全余量</span></div>
+  </div>
+  <div class="otp-card" id="otp-card" style="display:none;">
+    <div class="otp-label">Usher Access Link 招待员访问链接</div>
+    <div class="otp-expiry" id="otp-expiry">Valid for 24 hours</div>
+    <div class="otp-link-box" id="otp-link-box">—</div>
+    <div style="font-size:var(--fs-xs);color:var(--hdrs);margin-bottom:12px;">OTP: <span id="otp-display" style="font-family:Cinzel,serif;font-size:clamp(14px,4.5vw,19px);font-weight:700;color:var(--hdrtx);letter-spacing:3px;">——</span></div>
+    <div class="otp-actions"><button class="otp-btn" id="otp-copy">📋 Copy Link</button><button class="otp-btn primary" id="otp-email">✉ Email Sacristans</button></div>
+  </div>
+  <div class="btnrow"><button class="btn btn-primary" id="btn-gen">🔗 Generate Link with OTP</button></div>
+  <div class="btnrow" id="btn-counter-row" style="display:none;"><button class="btn btn-outline" id="btn-counter">→ Go to Counter View</button></div>
+  <div class="fn">Link expires 24 hours after generation · Counter closes 1 hour after Mass time</div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── CONFIG (fill these in) ────────────────────────────────────────────
+const SUPABASE_URL  = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';
+const SACRISTAN_EMAILS = ['cpcshj@gmail.com','sacristan2@gmail.com'];
+const API_URL = 'YOUR_VERCEL_API_URL/api/send-otp-email'; // e.g. https://hc-planner-api.vercel.app/api/send-otp-email
+const CIB_CAP = 100;
+const OTP_TTL_MS = 24*60*60*1000;
+const MAX_REDUCE = 5;
+const COMM_HINTS = {50:'Low season',60:'Low season',65:'Ordinary Time 常年期',66:'Ordinary Time 常年期',67:'Ordinary Time 常年期',68:'Ordinary Time 常年期',69:'Ordinary Time 常年期',70:'Ordinary Time 常年期',71:'Ordinary Time 常年期',72:'Ordinary Time 常年期',73:'Ordinary Time 常年期',74:'Ordinary Time 常年期',75:'Ordinary Time 常年期',76:'Lent / Advent 将临 / 四旬',77:'Lent / Advent 将临 / 四旬',78:'Lent / Advent 将临 / 四旬',79:'Lent / Advent 将临 / 四旬',80:'Christmas / Easter 圣诞 / 复活',81:'Christmas / Easter 圣诞 / 复活',82:'Christmas / Easter 圣诞 / 复活',83:'Major Feast 庆节',84:'Major Feast 庆节',85:'Major Feast 庆节',86:'Major Feast 庆节',87:'Major Feast 庆节',88:'Major Feast 庆节',89:'Major Feast 庆节',90:'Major Feast 庆节',95:'Major Feast 庆节'};
+
+// Supabase client (loaded from CDN before this script)
+const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// ── HELPERS ───────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+function toast(msg){const t=$('toast');if(!t)return;t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3500);}
+function syncSet(s,m){const d=$('sdot'),l=$('slbl');if(d)d.className='sd '+s;if(l)l.textContent=m;}
+function pulse(){const e=$('cnnum');if(!e)return;e.classList.add('pulse');setTimeout(()=>e.classList.remove('pulse'),150);}
+
+// ── AUTH ──────────────────────────────────────────────────────────────
+async function signInWithGoogle(){
+  const{error}=await _sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+window.location.pathname.replace(/[^/]*$/,'')+'setup.html'}});
+  if(error)throw error;
+}
+async function signOut(){await _sb.auth.signOut();window.location.href='index.html';}
+async function getUser(){const{data:{session}}=await _sb.auth.getSession();return session?.user??null;}
+function isSacristan(u){return u?.email&&SACRISTAN_EMAILS.some(e=>e.toLowerCase()===u.email.toLowerCase());}
+async function requireSacristan(){const u=await getUser();if(!u||!isSacristan(u)){window.location.href='index.html';return null;}return u;}
+function requireUsherOtp(){const c=sessionStorage.getItem('usher_otp');if(!c){window.location.href='index.html';return null;}return c;}
+
+// ── OTP ───────────────────────────────────────────────────────────────
+function generateOtpCode(){const a=new Uint32Array(1);crypto.getRandomValues(a);return String(a[0]%900000+100000);}
+function buildOtpLink(code){const b=window.location.href.replace(/[^/]*$/,'');return b+'index.html?otp='+code;}
+async function saveOtp(code,massLabel){
+  const expiresAt=new Date(Date.now()+OTP_TTL_MS).toISOString();
+  const{error}=await _sb.from('hcplanner_otp').upsert({id:'current',code,expires_at:expiresAt,mass_label:massLabel});
+  if(error)throw error;return expiresAt;
+}
+async function validateOtp(entered){
+  const{data,error}=await _sb.from('hcplanner_otp').select('code,expires_at').eq('id','current').single();
+  if(error||!data)return{valid:false,reason:'no_otp'};
+  if(new Date(data.expires_at)<new Date())return{valid:false,reason:'expired'};
+  if(String(entered)!==String(data.code))return{valid:false,reason:'wrong'};
+  return{valid:true};
+}
+function getUrlOtp(){return new URLSearchParams(window.location.search).get('otp');}
+function storeUsherOtp(code){sessionStorage.setItem('usher_otp',code);}
+
+// ── SESSION ───────────────────────────────────────────────────────────
+async function loadSession(){
+  const{data,error}=await _sb.from('hcplanner_session').select('*').eq('id','current').single();
+  if(error)throw error;return data;
+}
+async function saveSession(fields){
+  const{error}=await _sb.from('hcplanner_session').update({...fields,updated_at:new Date().toISOString()}).eq('id','current');
+  if(error)throw error;
+}
+async function writeDoorCount(door,count){
+  const{error}=await _sb.rpc('set_door_count',{p_door:door,p_count:count});
+  if(error){
+    const{data}=await _sb.from('hcplanner_session').select('counts').eq('id','current').single();
+    const counts={...(data?.counts||{}),[door]:count};
+    const{error:e2}=await _sb.from('hcplanner_session').update({counts,updated_at:new Date().toISOString()}).eq('id','current');
+    if(e2)throw e2;
+  }
+}
+async function resetCounts(){const{error}=await _sb.from('hcplanner_session').update({counts:{},updated_at:new Date().toISOString()}).eq('id','current');if(error)throw error;}
+async function appendRecord(record){
+  const{data}=await _sb.from('hcplanner_session').select('records').eq('id','current').single();
+  const records=[record,...(data?.records||[])].slice(0,50);
+  const{error}=await _sb.from('hcplanner_session').update({records,updated_at:new Date().toISOString()}).eq('id','current');
+  if(error)throw error;
+}
+
+// ── REALTIME ──────────────────────────────────────────────────────────
+let _channel=null;
+function subscribeSession(cb){
+  if(_channel)_channel.unsubscribe();
+  _channel=_sb.channel('session-changes')
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'hcplanner_session',filter:'id=eq.current'},p=>cb(p.new))
+    .subscribe();
+  return _channel;
+}
+function unsubscribeSession(){if(_channel){_channel.unsubscribe();_channel=null;}}
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function massLabel(sess){return sess.mass_label||'—';}
+function refreshPct(commPct,bufPct,isSac){
+  const dcomm=$('dcomm'),dbuf=$('dbuf'),chint=$('chint');
+  if(dcomm)dcomm.textContent=commPct+'%';if(dbuf)dbuf.textContent=bufPct+'%';
+  if(chint)chint.textContent=COMM_HINTS[commPct]||'';
+  ['cdn','cup','bdn','bup'].forEach((id,i)=>{const el=$(id);if(!el)return;
+    el.disabled=!isSac||((i===0&&commPct<=50)||(i===1&&commPct>=95)||(i===2&&bufPct<=5)||(i===3&&bufPct>=30));});
+}
+function renderCounter(sess,myCount,myRole,isSac,commPct,bufPct){
+  const counts=sess.counts||{};
+  const tot=Object.values(counts).reduce((a,b)=>a+b,0);
+  const cnnum=$('cnnum');if(cnnum)cnnum.textContent=isSac?tot:myCount;
+  ['usher_main','usher_side_cw','usher_side_th'].forEach(door=>{
+    const el=$('b-'+door);if(!el)return;
+    el.textContent=counts[door]??0;el.className='bv'+(door===myRole?' me':'');
+  });
+  const comm=Math.round(tot*commPct/100),hosts=Math.ceil(comm*(1+bufPct/100)),cib=Math.ceil(hosts/CIB_CAP);
+  const set=(id,val)=>{const e=$(id);if(e)e.textContent=tot>0?val:'—';};
+  set('rh',hosts);set('rci',cib);set('rm',comm);set('rb',hosts-comm);
+  const ap=$('aprep');if(ap)ap.textContent=tot>0?hosts:'—';
+  const mib=$('counter-mass-info');if(mib)mib.textContent=massLabel(sess);
+  const sb=$('sbar');if(sb){
+    if(tot===0){sb.className='sb wn';sb.textContent='Waiting for ushers… 等待招待员开始计数…';}
+    else{sb.className='sb ok';sb.textContent='Prepare 祝圣 '+hosts+' hosts 圣体 in '+cib+' ciborium 圣体盒 — before Offertory ✝';}
+  }
+}
+
+const DAY_NAMES=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const DAY_ZH=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+let commPct=72,bufPct=12,currentOtp=null;
+
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function buildDateTime(d,t){const[h,m]=t.split(':').map(Number);const dt=new Date(d+'T00:00:00');dt.setHours(h,m,0,0);return dt;}
+function formatMassLabel(d,t){const dt=buildDateTime(d,t);const day=DAY_NAMES[dt.getDay()].slice(0,3);const dp=dt.toLocaleDateString('en-MY',{day:'2-digit',month:'short',year:'numeric'});const tp=dt.toLocaleTimeString('en-MY',{hour:'2-digit',minute:'2-digit',hour12:true});return day+', '+dp+' · '+tp;}
+function formatClosesAt(c){return c.toLocaleString('en-MY',{weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:true});}
+
+function refreshDateDisplay(){
+  const d=.value,t=.value;
+  if(!d||!t)return;
+  const dt=buildDateTime(d,t);
+  .textContent=DAY_NAMES[dt.getDay()]+' '+DAY_ZH[dt.getDay()];
+  .textContent=formatClosesAt(new Date(dt.getTime()+3600000));
+}
+.addEventListener('change',refreshDateDisplay);
+.addEventListener('change',refreshDateDisplay);
+
+function refreshPctDisplay(){.textContent=commPct+'%';.textContent=bufPct+'%';.textContent=COMM_HINTS[commPct]||'';}
+.addEventListener('click',()=>{commPct=Math.max(50,commPct-1);refreshPctDisplay();});
+.addEventListener('click',()=>{commPct=Math.min(95,commPct+1);refreshPctDisplay();});
+.addEventListener('click',()=>{bufPct=Math.max(5,bufPct-1);refreshPctDisplay();});
+.addEventListener('click',()=>{bufPct=Math.min(30,bufPct+1);refreshPctDisplay();});
+
+(async()=>{
+  const user=await requireSacristan();
+  if(!user)return;
+  .src=user.user_metadata?.avatar_url||'';
+  Linux.textContent=user.user_metadata?.full_name||user.email;
+  try{
+    const sess=await loadSession();
+    if(sess?.mass_date){.value=sess.mass_date;.value=sess.mass_time_hhmm||'10:15';}
+    else{.value=todayStr();.value='10:15';}
+    commPct=sess?.comm_pct||72;bufPct=sess?.buf_pct||12;
+    refreshPctDisplay();refreshDateDisplay();
+    const{data:otp}=await _sb.from('hcplanner_otp').select('*').eq('id','current').single();
+    if(otp&&new Date(otp.expires_at)>new Date()){currentOtp=otp;showOtpCard(otp.code,otp.expires_at,buildOtpLink(otp.code));}
+  }catch(e){.value=todayStr();.value='10:15';refreshDateDisplay();}
+})();
+
+.addEventListener('click',async()=>{
+  const d=.value,t=.value;
+  if(!d||!t){const e=;e.textContent='Please set date and time.';e.style.display='block';return;}
+  const starts=buildDateTime(d,t),closes=new Date(starts.getTime()+3600000);
+  const label=formatMassLabel(d,t),code=generateOtpCode(),link=buildOtpLink(code);
+  .disabled=true;.textContent='Generating…';
+  try{
+    await Promise.all([
+      saveSession({mass_date:d,mass_time_hhmm:t,mass_label:label,mass_starts_at:starts.toISOString(),counter_closes_at:closes.toISOString(),comm_pct:commPct,buf_pct:bufPct,counts:{},records:[]}),
+      saveOtp(code,label)
+    ]);
+    currentOtp={code,expires_at:new Date(Date.now()+OTP_TTL_MS).toISOString()};
+    showOtpCard(code,currentOtp.expires_at,link);
+    toast('Link generated! Emailing sacristans…');
+    await sendEmail(code,label,closes,currentOtp.expires_at,link);
+  }catch(e){const el=;el.textContent='Error: '+e.message;el.style.display='block';}
+  finally{.disabled=false;.textContent='🔗 Generate Link with OTP';}
+});
+
+function showOtpCard(code,expiresAt,link){
+  .textContent=code;.textContent=link;
+  .textContent='Expires: '+new Date(expiresAt).toLocaleString('en-MY',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  .style.display='block';.style.display='flex';
+}
+.addEventListener('click',()=>{
+  if(!currentOtp)return;
+  const link=buildOtpLink(currentOtp.code);
+  navigator.clipboard?.writeText('HC Planner Usher Link
+Mass: '+formatMassLabel(.value,.value)+'
+Link: '+link).then(()=>toast('Link copied! 已复制'));
+});
+
+async function sendEmail(code,label,closes,expiresAt,link){
+  const expires=new Date(expiresAt).toLocaleString('en-MY',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  try{
+    const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({emails:SACRISTAN_EMAILS,otp:code,mass_label:label,expires,otp_link:link})});
+    const data=await res.json();
+    if(data.ok)toast('Link emailed ✓');else toast('Email failed — use Copy Link button');
+  }catch(e){toast('Email failed — use Copy Link button');}
+}
+.addEventListener('click',async()=>{
+  if(!currentOtp)return;
+  const closes=new Date(buildDateTime(.value,.value).getTime()+3600000);
+  await sendEmail(currentOtp.code,formatMassLabel(.value,.value),closes,currentOtp.expires_at,buildOtpLink(currentOtp.code));
+});
+.addEventListener('click',()=>{window.location.href='counter.html';});
+.addEventListener('click',()=>signOut());
+</script>
+</body>
+</html>
