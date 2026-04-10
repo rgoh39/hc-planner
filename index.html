@@ -595,10 +595,10 @@ function renderCounter(sess,myCount,myRole,isSac,commPct,bufPct){
     if(tot===0){sb.className='sb wn';sb.textContent='Waiting for ushers… 等待招待员开始计数…';}
     else{sb.className='sb ok';sb.textContent='Prepare 祝圣 '+hosts+' hosts 圣体 in '+cib+' ciborium 圣体盒 — before Offertory ✝';}
   }
-}
+let pinBuf='';
+function dotRefresh(state){for(let i=0;i<6;i++){const d=$('d'+i);if(!d)continue;d.className='dot'+(i<pinBuf.length?' f':'')+(state==='e'?' e':'');}}
 
-
-function switchTab(tab){
+ function switchTab(tab){
   $('tab-sac').classList.toggle('active',tab==='sac');
   $('tab-usher').classList.toggle('active',tab==='usher');
   $('panel-sac').classList.toggle('on',tab==='sac');
@@ -619,8 +619,6 @@ $('gbtn').addEventListener('click',async()=>{
   const urlOtp=getUrlOtp();
   if(urlOtp){switchTab('usher');showValidating('Validating link… 验证链接中…');await processOtp(urlOtp,true);}
 })();
-let pinBuf='';
-function dotRefresh(state){for(let i=0;i<6;i++){const d=$('d'+i);if(!d)continue;d.className='dot'+(i<pinBuf.length?' f':'')+(state==='e'?' e':'');}}
 function showValidating(msg){const e=$('err');e.style.background='var(--wnbg)';e.style.borderColor='var(--wnbr)';e.style.color='var(--wn)';e.textContent=msg;e.style.display='block';}
 document.querySelectorAll('.pk').forEach(btn=>{
   btn.addEventListener('click',()=>{
